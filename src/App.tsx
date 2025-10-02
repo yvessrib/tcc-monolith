@@ -1,10 +1,17 @@
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { LoginPage } from "./pages/login";
+import { StorePage } from "./pages/store";
+
 export default function App() {
 
   return (
     <>
-      <div>
-        <h1 className='text-yellow-800'>Hello World</h1>
-      </div>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<LoginPage />} />
+          <Route path="/store" element={<StorePage />} />
+        </Routes>
+      </BrowserRouter>
     </>
   )
 }
