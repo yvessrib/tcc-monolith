@@ -2,8 +2,8 @@ import type { Coffee } from "@/types";
 import  { createContext, useEffect, useState, type ReactNode } from "react";
 import { useCallback } from "react";
 
-interface CoffeesContextType {
-  coffees: Coffee[];
+interface CartContextType {
+  getOrCreateCart: Coffee[];
   loading: boolean;
   error: string | null;
   getCoffees: () => Promise<void>;  

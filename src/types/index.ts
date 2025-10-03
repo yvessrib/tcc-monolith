@@ -6,3 +6,10 @@ export interface Coffee {
   image: string;
   categories: string[];
 }
+
+export interface User {
+  id: string;
+  name: string;
+  email: string;
+  token: string;
+}
