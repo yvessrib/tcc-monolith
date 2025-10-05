@@ -10,13 +10,13 @@ export function QuantityInput(props: QuantityInputProps) {
   return (
     <div
       className="
-        flex items-center gap-1.5 px-2 py-2
-        rounded-md bg-base-button
+        flex items-center gap-1.5 px-2 py-[5px]
+        rounded-md bg-zinc-200
       "
     >
       <button
         onClick={props.decrementQuantity}
-        className="flex items-center p-1 text-purple hover:text-purple-900 transition-colors"
+        className="flex items-center p-1 text-purple-600 hover:text-purple-900 transition-colors"
       >
         <Minus size={14} />
       </button>
@@ -25,7 +25,7 @@ export function QuantityInput(props: QuantityInputProps) {
 
       <button
         onClick={props.incrementQuantity}
-        className="flex items-center p-1 text-purple hover:text-purple-900 transition-colors"
+        className="flex items-center p-1 text-purple-600 hover:text-purple-900 transition-colors"
       >
         <Plus size={14} />
       </button>

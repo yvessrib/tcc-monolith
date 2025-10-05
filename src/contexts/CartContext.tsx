@@ -6,8 +6,8 @@ interface CartContextType {
   getOrCreateCart: (userId: string) => Promise<Cart | null>;
   cart: Cart | null;
   addItemToCart: (userId: string, cartId: string, productId: number, quantity: number) => Promise<void>;
-  removeItemFromCart: (itemId: number) => Promise<void>;
-  updateItemQuantity: (itemId: number, quantity: number) => Promise<void>;
+  removeItemFromCart: (userId: string, cartId: string, productId: number) => Promise<void>;
+  updateItemQuantity: (userId: string, cartId: string, productId: number, quantity: number) => Promise<void>;
   error: string | null;
   cartQuantity: number;
 }
@@ -84,21 +84,21 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
     }
   }, [cart]);
 
-  const removeItemFromCart = useCallback(async (itemId: number) => {
+  const removeItemFromCart = useCallback(async (userId: string, cartId: string, productId: number) => {
     if (!cart) {
       setError("Carrinho não encontrado");
       return;
     }
 
     try {
-      const response = await fetch("http://localhost:3333/cart/'${cart.id}/items/${itemId}", {
+      const response = await fetch("http://localhost:3333/cart", {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          cartId: cart.cartId,
-          itemId,
+          cartId,
+          productId,
         }),
       });
     
@@ -122,28 +122,39 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
     }
   }, [cart]);
 
-  const updateItemQuantity = useCallback(async (itemId: number, quantity: number) => {
+  const updateItemQuantity = useCallback(async (userId: string, cartId: string, productId: number, quantity: number) => {
     if (!cart) {
       setError("Carrinho não encontrado");
       return;
     }
 
+    console.log("Updating item quantity:", { userId, cartId, productId, quantity });
+
     try {
-      const response = await fetch("http://localhost:3333/cart/", {
-        method: "PUT",
+      const response = await fetch("http://localhost:3333/cart", {
+        method: "PATCH",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          cartId: cart.cartId,
-          itemId,
+          cartId,
+          productId,
           quantity,
         }),
       });
       if (!response.ok) throw new Error("Erro ao atualizar quantidade do item no carrinho");
 
-      const data = await response.json();
-      setCart(data.cart);
+      console.log(response)
+
+      const getData = await fetch(`http://localhost:3333/cart/${userId}`, {
+        method: "GET",
+      });
+
+      if (!getData.ok) throw new Error("Erro ao buscar ou criar o carrinho");
+
+      const data = await getData.json();
+      setCart(data);
+      setCartQuantity(data.items.length);
     } catch (err: unknown) {
       if (err instanceof Error) {
         setError(err.message);
