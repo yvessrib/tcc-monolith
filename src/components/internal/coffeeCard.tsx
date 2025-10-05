@@ -1,11 +1,14 @@
 import { ShoppingCart } from "lucide-react"
-import { useState } from "react"
+import { useContext, useState } from "react"
 import { QuantityInput } from "./quantityInput"
 import type { Coffee } from "@/types"
-
-
+import { CartContext } from "@/contexts/CartContext"
+import { UserContext } from "@/contexts/UserContext"
 
 export function CoffeeCard(coffee: Coffee) {
+
+  const { addItemToCart, cart } = useContext(CartContext)
+  const { user } = useContext(UserContext)
   const [quantity, setQuantity] = useState(1)
 
   function incrementQuantity() {
@@ -19,10 +22,12 @@ export function CoffeeCard(coffee: Coffee) {
   }
 
   function handleAddItem() {
-    // addItem({
-    //   id: coffee.id,
-    //   quantity,
-    // })
+    if (!cart || !user) {
+      console.error("Carrinho ou usuário não encontrado")
+      return
+    }
+    console.log(cart)
+    addItemToCart(user.id, cart.cartId, coffee.id, quantity)
     setQuantity(1)
   }
 

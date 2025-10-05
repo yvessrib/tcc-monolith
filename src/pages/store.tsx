@@ -1,25 +1,28 @@
-import { HeaderComponent } from "@/components/internal/header";
 import { CoffeeIcon, Package, ShoppingCart, Timer } from "lucide-react";
 import heroImg from '../assets/hero_img.svg'
 import { CoffeeCard } from "@/components/internal/coffeeCard";
 import { useContext, useEffect } from "react";
 import { CoffeesContext } from "@/contexts/CoffeeContext";
+import { CartContext } from "@/contexts/CartContext";
+import { UserContext } from "@/contexts/UserContext";
 
 
 export function StorePage() {
   const { coffees, getCoffees } = useContext(CoffeesContext);
+  const { getOrCreateCart } = useContext(CartContext)
+  const { user } = useContext(UserContext)
 
   useEffect(() => {
     getCoffees();
+    if (user) {
+      getOrCreateCart(user.id);
+    }
   }, []);
 
-  console.log(coffees);
 
   return (
-    <div>
-      <HeaderComponent />
-
-      <div className="flex gap-12 py-8 px-16 mt-16">
+    <>
+      <div className="flex gap-12">
         {/* Bloco de texto */}
         <div className="flex flex-col justify-between">
           {/* Cabeçalho */}
@@ -61,14 +64,14 @@ export function StorePage() {
       </div>
 
       <div className="flex flex-col gap-10 py-8">
-        <h2 className="text-3xl font-extrabold text-gray-900 px-16">Nossos cafés</h2>
+        <h2 className="text-3xl font-extrabold text-gray-900">Nossos cafés</h2>
 
-        <div className="grid grid-cols-4 gap-8 px-16">
+        <div className="grid grid-cols-4 gap-8">
           {coffees.map(coffee => (
             <CoffeeCard key={coffee.id} {...coffee} />
           ))}
         </div>
       </div>
-    </div>
+    </>
   )
 }

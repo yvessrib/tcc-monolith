@@ -33,7 +33,7 @@ export function LoginPage() {
         <ShoppingCart className="text-white w-14 h-14" />
 
         {/* Input com ícone */}
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <form onSubmit={handleSubmit(onSubmit)} className="relative w-full flex flex-col items-center gap-5">
           <div className="relative w-full">
             <User className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 w-4 h-4" />
             <Input 

@@ -13,3 +13,19 @@ export interface User {
   email: string;
   token: string;
 }
+
+export interface Cart {
+  cartId: string;
+  createdAt: string;
+  items: CartItem[];
+  status: string;
+  userId: string;
+}
+
+export interface CartItem {
+  productId: number;
+  productName: string;
+  quantity: number;
+  price: number;
+  image: string;
+}

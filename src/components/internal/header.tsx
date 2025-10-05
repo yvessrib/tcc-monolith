@@ -1,11 +1,14 @@
 import { MapPinnedIcon, ShoppingCartIcon } from 'lucide-react'
 import CoffeLogo from '../../assets/CoffeDeliveryLogo.svg'
 import { Link } from 'react-router-dom'
+import { CartContext } from '@/contexts/CartContext'
+import { useContext } from 'react'
 
 export function HeaderComponent() {
+  const { cartQuantity } = useContext(CartContext)
 
   return (
-    <header className="flex items-center justify-between py-4 px-6 fixed bg-white w-full top-0 left-0 z-10 border-b border-gray-200">
+    <header className="flex items-center w-full justify-between py-4 px-6 fixed bg-white z-10 border-b border-gray-200">
       <Link to="/store">
         <img src={CoffeLogo} alt="" />
       </Link>
@@ -24,7 +27,7 @@ export function HeaderComponent() {
           <p>Porto Alegre, RS</p>
         </button>
 
-        <Link to="/checkout">
+        <Link to="/cart">
           <button
             className="
               relative flex items-center p-2
@@ -37,7 +40,7 @@ export function HeaderComponent() {
               <span
                 className='absolute -top-2 -right-2 flex items-center justify-center w-5 h-5 rounded-full text-xs font-bold text-white bg-yellow-900'
               >
-                2
+                {cartQuantity}
               </span>
           </button>
         </Link>
